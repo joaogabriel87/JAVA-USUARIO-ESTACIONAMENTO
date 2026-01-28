@@ -2,6 +2,8 @@ package com.user.users_parking.Controller;
 
 import com.user.users_parking.Dto.Response.ResponseFindUserByEmail;
 import com.user.users_parking.Services.UserServices;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserServices userServices;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     public UserController(UserServices userServices) {
         this.userServices = userServices;
@@ -24,10 +27,14 @@ public class UserController {
 
     @GetMapping("/find/{email}")
     public ResponseEntity<ResponseFindUserByEmail> findUserByEmail(@PathVariable String email) {
+        logger.info("findUserByEmail controller recebido");
+
         ResponseFindUserByEmail users = userServices.findByEmail(email);
         if (users.nome() == null && users.email() == null) {
+            logger.error("Email nao existente", email);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+        logger.info("usuario {} encontrado", email);
 
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }

@@ -8,6 +8,8 @@ import com.user.users_parking.Dto.Response.RegisterUserResponse;
 import com.user.users_parking.Models.Users;
 import com.user.users_parking.Repository.UserRepository;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,6 +30,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final TokenConfig tokenConfig;
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     public AuthController(UserRepository userRepository,  PasswordEncoder passwordEncoder,  AuthenticationManager authenticationManager,  TokenConfig tokenConfig) {
         this.userRepository = userRepository;
@@ -37,6 +40,7 @@ public class AuthController {
     }
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request){
+        logger.info("Login controller");
         UsernamePasswordAuthenticationToken userAndPassword = new UsernamePasswordAuthenticationToken(request.email(), request.password());
         Authentication authentication = authenticationManager.authenticate(userAndPassword);
 
@@ -47,6 +51,7 @@ public class AuthController {
     }
     @PostMapping("/register")
     public ResponseEntity<RegisterUserResponse> registerUser(@Valid @RequestBody RegisterUserRequest request){
+        logger.info("register controller recebido");
         Users newUser = new Users();
         newUser.setPassword(passwordEncoder.encode(request.password()));
         newUser.setEmail(request.email());
