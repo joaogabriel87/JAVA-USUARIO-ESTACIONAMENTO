@@ -1,5 +1,6 @@
 package com.user.users_parking.Dto.Requests;
 
+import com.user.users_parking.Models.Roles;
 import jakarta.validation.constraints.NotEmpty;
 
 public record RegisterUserRequest(

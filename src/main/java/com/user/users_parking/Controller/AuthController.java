@@ -5,6 +5,7 @@ import com.user.users_parking.Dto.Requests.LoginRequest;
 import com.user.users_parking.Dto.Requests.RegisterUserRequest;
 import com.user.users_parking.Dto.Response.LoginResponse;
 import com.user.users_parking.Dto.Response.RegisterUserResponse;
+import com.user.users_parking.Models.Roles;
 import com.user.users_parking.Models.Users;
 import com.user.users_parking.Repository.UserRepository;
 import jakarta.validation.Valid;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping("/auth")
@@ -56,6 +59,7 @@ public class AuthController {
         newUser.setPassword(passwordEncoder.encode(request.password()));
         newUser.setEmail(request.email());
         newUser.setName(request.name());
+        newUser.setRoles(Set.of(Roles.ROLE_USER));
 
         userRepository.save(newUser);
 
