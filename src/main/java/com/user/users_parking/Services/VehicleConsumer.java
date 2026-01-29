@@ -18,12 +18,9 @@ public class VehicleConsumer {
 
     @RabbitListener(queues = "vehicleQueue")
     public void receiveVehicleCreated(RequestLinkVehicle requestLinkVehicle) {
-        try {
             logger.info("Serviço rabbit linkVehicle iniciado");
             userService.linkVehicleToUser(requestLinkVehicle);
             logger.info("Serviço rabbit linkVehicle finalizado");
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
+
     }
 }
