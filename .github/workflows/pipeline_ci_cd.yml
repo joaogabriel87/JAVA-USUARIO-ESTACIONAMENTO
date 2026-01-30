@@ -1,4 +1,4 @@
-name: Build and push Estacionamento
+name: Build and push users-estacionamento
 
 on:
   push:
